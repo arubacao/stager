@@ -1,35 +1,35 @@
 package main
 
 import (
-	"fmt"
-	"io/ioutil"
 	"encoding/json"
-	"os"
+	"fmt"
 	"github.com/gocarina/gocsv"
-	"net/url"
-	"path"
-	"strings"
-	"path/filepath"
-	"os/exec"
 	"github.com/iancoleman/strcase"
+	"io/ioutil"
+	"net/url"
+	"os"
+	"os/exec"
+	"path"
+	"path/filepath"
+	"strings"
 )
 
 const (
-	configFile = "config.json"
+	configFile   = "config.json"
 	studentsFile = "students.csv"
 )
 
 type Config struct {
-	Url string
-	Username string
-	Password string
-	Deadline string
+	Url         string
+	Username    string
+	Password    string
+	Deadline    string
 	SquashAfter string `json:"squash_after"`
 }
 
 type Student struct {
-	Id      string `csv:"id"`
-	Name    string `csv:"name"`
+	Id   string `csv:"id"`
+	Name string `csv:"name"`
 }
 
 type Operator interface {
@@ -60,7 +60,7 @@ func (DeadlineOperation) Run(repo string, config Config) (string, error) {
 	return checkout, err
 }
 
-type SquashOperation struct {}
+type SquashOperation struct{}
 
 func (SquashOperation) Run(repo string, config Config) (string, error) {
 	reset, err := commander("git",
