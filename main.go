@@ -12,6 +12,7 @@ import (
 	"path"
 	"path/filepath"
 	"strings"
+	"reflect"
 )
 
 const (
@@ -41,6 +42,7 @@ type Operation struct {
 }
 
 func (o *Operation) Operate(repo string, config Config) (string, error) {
+	fmt.Printf("Execute %s for %s \n",reflect.TypeOf(o.Operator), repo)
 	return o.Operator.Run(repo, config)
 }
 
