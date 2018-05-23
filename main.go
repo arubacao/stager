@@ -44,6 +44,19 @@ func (o *Operation) Operate(repo string, config Config) (string, error) {
 	return o.Operator.Run(repo, config)
 }
 
+type PullOperation struct{}
+
+func (PullOperation) Run(repo string, config Config) (string, error) {
+	_, err := commander("git",
+		"-C", repo,
+		"fetch", "--all")
+	reset, err := commander("git",
+		"-C", repo,
+		"reset", "--hard", "origin/master")
+	fmt.Println(reset)
+	return reset, err
+}
+
 type DeadlineOperation struct{}
 
 func (DeadlineOperation) Run(repo string, config Config) (string, error) {
@@ -58,7 +71,6 @@ func (DeadlineOperation) Run(repo string, config Config) (string, error) {
 		trimQuote(lastSha))
 	fmt.Println(checkout)
 	return checkout, err
-
 }
 
 type SquashOperation struct{}
@@ -94,6 +106,7 @@ func main() {
 		repos = append(repos, cloneRepo(config, student))
 	}
 	operations := []Operation{
+		{PullOperation{}},
 		{DeadlineOperation{}},
 		{SquashOperation{}},
 	}
@@ -105,11 +118,11 @@ func main() {
 }
 
 func cloneRepo(config Config, student *Student) string {
+	fmt.Println("Cloning Repo for: ", student.Name)
 	repoUrl := fmt.Sprintf(config.Url, config.Username, config.Password, student.Id)
 	targetDir := getTargetDirectory(repoUrl, student.Name)
 	output, err := commander("git", "clone", repoUrl, targetDir)
-	checkError(err)
-	fmt.Println("Cloning Repo for: ", student.Name)
+	checkGitError(output, err)
 	fmt.Println(output)
 	return targetDir
 }
@@ -141,8 +154,19 @@ func getConfig(filename string) Config {
 	return config
 }
 
+func checkGitError(message string, err error) {
+	if err == nil {
+		return
+	}
+	if strings.Contains(message, "already exists") {
+		return
+	}
+	checkError(err)
+}
+
 func checkError(err error) {
 	if err != nil {
+		fmt.Println(err.Error())
 		panic(err)
 	}
 }
