@@ -58,6 +58,7 @@ func (DeadlineOperation) Run(repo string, config Config) (string, error) {
 		trimQuote(lastSha))
 	fmt.Println(checkout)
 	return checkout, err
+
 }
 
 type SquashOperation struct{}
