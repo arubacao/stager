@@ -1,5 +1,7 @@
 language: go
 
+sudo: true
+
 addons:
   apt:
     packages:
