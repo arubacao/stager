@@ -1,8 +1,21 @@
 language: go
-sudo: false
+
+addons:
+  apt:
+    packages:
+    - rpm
+    - snapcraft
+
+env:
+  - PATH=/snap/bin:$PATH
+
+services:
+  - docker
+
 go:
   - tip
 install:
+  - sudo snap install snapcraft --classic
   - go get -v github.com/golang/lint/golint
   - go get -d -t -v ./...
   - go build -v ./...
@@ -10,3 +23,10 @@ script:
   - go vet ./...
   - $HOME/gopath/bin/golint .
   - go test -v ./...
+deploy:
+  - provider: script
+    skip_cleanup: true
+    script: curl -sL https://git.io/goreleaser | bash
+    on:
+      tags: true
+      condition: $TRAVIS_OS_NAME = linux
