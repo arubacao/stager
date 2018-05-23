@@ -194,8 +194,9 @@ func checkError(err error) {
 	}
 }
 
-func commander(name string, args ...string) (string, error) {
-	cmd := exec.Command(name, args...)
+func commander(executable string, args ...string) (string, error) {
+	fmt.Printf("Execute: %s %s \n", executable, strings.Join(args, " "))
+	cmd := exec.Command(executable, args...)
 	output, err := cmd.CombinedOutput()
 
 	return string(output), err
