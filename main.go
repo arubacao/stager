@@ -163,6 +163,9 @@ func checkGitError(message string, err error) {
 	if strings.Contains(message, "already exists") {
 		return
 	}
+	if strings.Contains(message, "does not exist") {
+		return
+	}
 	checkError(err)
 }
 
