@@ -17,6 +17,3 @@ archive:
 
 checksum:
   name_template: "{{ .ProjectName }}-checksums.txt"
-
-sign:
-  artifacts: checksum
