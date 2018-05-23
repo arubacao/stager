@@ -103,16 +103,19 @@ func (SquashOperation) Run(repo string, config Config) (string, error) {
 func main() {
 	config := getConfig(configFile)
 	students := getStudents(studentsFile)
-	repos := make([]string, 0)
-	for _, student := range students {
-		repos = append(repos, cloneRepo(config, student))
-	}
 	operations := []Operation{
 		{PullOperation{}},
 		{DeadlineOperation{}},
 		{SquashOperation{}},
 	}
-	for _, repo := range repos {
+	for _, student := range students {
+		repo := cloneRepo(config, student)
+
+		if info, err := os.Stat(repo); err != nil || info.IsDir() {
+			fmt.Println("No local repository: " + repo)
+			continue
+		}
+
 		for _, operation := range operations {
 			operation.Operate(repo, config)
 		}
