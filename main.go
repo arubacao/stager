@@ -34,21 +34,21 @@ type Student struct {
 }
 
 type Operator interface {
-	Run(repo string, config Config) (string, error)
+	Run(repo string, student Student, config Config) (string, error)
 }
 
 type Operation struct {
 	Operator Operator
 }
 
-func (o *Operation) Operate(repo string, config Config) (string, error) {
-	fmt.Printf("Execute %s for %s \n",reflect.TypeOf(o.Operator), repo)
-	return o.Operator.Run(repo, config)
+func (o *Operation) Operate(repo string, student Student, config Config) (string, error) {
+	fmt.Printf("Execute %s for %s \n",reflect.TypeOf(o.Operator), student.Name)
+	return o.Operator.Run(repo, student, config)
 }
 
 type PullOperation struct{}
 
-func (PullOperation) Run(repo string, config Config) (string, error) {
+func (PullOperation) Run(repo string, student Student, config Config) (string, error) {
 	_, err := commander("git",
 		"-C", repo,
 		"fetch", "--all")
@@ -61,7 +61,7 @@ func (PullOperation) Run(repo string, config Config) (string, error) {
 
 type DeadlineOperation struct{}
 
-func (DeadlineOperation) Run(repo string, config Config) (string, error) {
+func (DeadlineOperation) Run(repo string, student Student, config Config) (string, error) {
 	lastSha, err := commander("git",
 		"-C", repo,
 		"log", "-n1", `--pretty=format:"%H"`, `--before="`+config.Deadline+`"`)
@@ -77,7 +77,7 @@ func (DeadlineOperation) Run(repo string, config Config) (string, error) {
 
 type SquashOperation struct{}
 
-func (SquashOperation) Run(repo string, config Config) (string, error) {
+func (SquashOperation) Run(repo string, student Student, config Config) (string, error) {
 	reset, err := commander("git",
 		"-C", repo,
 		"reset",
@@ -117,12 +117,12 @@ func main() {
 		}
 
 		for _, operation := range operations {
-			operation.Operate(repo, config)
+			operation.Operate(repo, student, config)
 		}
 	}
 }
 
-func cloneRepo(config Config, student *Student) string {
+func cloneRepo(config Config, student Student) string {
 	fmt.Println("Cloning Repo for: ", student.Name)
 	repoUrl := fmt.Sprintf(config.Url, config.Username, config.Password, student.Id)
 	targetDir := getTargetDirectory(repoUrl, student.Name)
@@ -139,12 +139,12 @@ func getTargetDirectory(repoUrl, studentName string) string {
 	return repoBase + "_" + strcase.ToSnake(studentName)
 }
 
-func getStudents(filename string) []*Student {
+func getStudents(filename string) []Student {
 	studentsFile, err := os.OpenFile(filename, os.O_RDWR|os.O_CREATE, os.ModePerm)
 	checkError(err)
 	defer studentsFile.Close()
 
-	var students []*Student
+	var students []Student
 	err = gocsv.UnmarshalFile(studentsFile, &students)
 	checkError(err)
 
