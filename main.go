@@ -1,3 +1,10 @@
+/*
+ * Copyright 2018 Christopher Lass
+ *
+ * MIT Licence
+ * https://opensource.org/licenses/MIT
+ */
+
 package main
 
 import (
