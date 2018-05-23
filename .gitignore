@@ -10,3 +10,7 @@
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
+
+# Prevent commiting secrets or student info
+config.json
+students.csv
