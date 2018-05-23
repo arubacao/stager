@@ -42,20 +42,27 @@ type Operation struct {
 }
 
 func (o *Operation) Operate(repo string, student Student, config Config) (string, error) {
+	fmt.Println("--------------------------------------------------------------")
 	fmt.Printf("Execute %s for %s \n", reflect.TypeOf(o.Operator), student.Name)
+	fmt.Println("--------------------------------------------------------------")
+
 	return o.Operator.Run(repo, student, config)
 }
 
 type PullOperation struct{}
 
 func (PullOperation) Run(repo string, student Student, config Config) (string, error) {
-	_, err := commander("git",
+	fetch, err := commander("git",
 		"-C", repo,
 		"fetch", "--all")
+	fmt.Println(fetch)
+	checkGitError(fetch, err)
 	reset, err := commander("git",
 		"-C", repo,
 		"reset", "--hard", "origin/master")
 	fmt.Println(reset)
+	checkGitError(reset, err)
+
 	return reset, err
 }
 
@@ -65,13 +72,16 @@ func (DeadlineOperation) Run(repo string, student Student, config Config) (strin
 	lastSha, err := commander("git",
 		"-C", repo,
 		"log", "-n1", `--pretty=format:"%H"`, `--before="`+config.Deadline+`"`)
-	checkError(err)
+	fmt.Println(lastSha)
+	checkGitError(lastSha, err)
 	checkout, err := commander("git",
 		"-C", repo,
 		"reset",
 		"--hard",
 		trimQuote(lastSha))
 	fmt.Println(checkout)
+	checkGitError(checkout, err)
+
 	return checkout, err
 }
 
@@ -83,20 +93,22 @@ func (SquashOperation) Run(repo string, student Student, config Config) (string,
 		"reset",
 		"--hard",
 		config.SquashAfter)
-	checkError(err)
 	fmt.Println(reset)
+	checkGitError(reset, err)
 	squash, err := commander("git",
 		"-C", repo,
 		"merge",
 		"--squash",
 		"HEAD@{1}")
-	checkError(err)
 	fmt.Println(squash)
+	checkGitError(squash, err)
 	commit, err := commander("git",
 		"-C", repo,
 		"commit",
 		"--no-edit")
 	fmt.Println(commit)
+	checkGitError(commit, err)
+
 	return commit, err
 }
 
@@ -111,8 +123,8 @@ func main() {
 	for _, student := range students {
 		repo := cloneRepo(config, student)
 
-		if info, err := os.Stat(repo); err != nil || info.IsDir() {
-			fmt.Println("No local repository: " + repo)
+		if info, err := os.Stat(repo); err != nil || !info.IsDir() {
+			fmt.Printf("Student: %s - No local repository: %s \n", student.Name, repo)
 			continue
 		}
 
@@ -129,6 +141,7 @@ func cloneRepo(config Config, student Student) string {
 	output, err := commander("git", "clone", repoUrl, targetDir)
 	checkGitError(output, err)
 	fmt.Println(output)
+
 	return targetDir
 }
 
@@ -136,6 +149,7 @@ func getTargetDirectory(repoUrl, studentName string) string {
 	u, _ := url.Parse(repoUrl)
 	ps := path.Base(u.Path)
 	repoBase := strings.TrimSuffix(ps, filepath.Ext(ps))
+
 	return repoBase + "_" + strcase.ToSnake(studentName)
 }
 
@@ -156,6 +170,7 @@ func getConfig(filename string) Config {
 	configContent, err := ioutil.ReadFile(filename)
 	checkError(err)
 	json.Unmarshal([]byte(configContent), &config)
+
 	return config
 }
 
@@ -181,7 +196,6 @@ func checkError(err error) {
 
 func commander(name string, args ...string) (string, error) {
 	cmd := exec.Command(name, args...)
-
 	output, err := cmd.CombinedOutput()
 
 	return string(output), err
@@ -194,5 +208,6 @@ func trimQuote(s string) string {
 	if len(s) > 0 && s[len(s)-1] == '"' {
 		s = s[:len(s)-1]
 	}
+
 	return s
 }
