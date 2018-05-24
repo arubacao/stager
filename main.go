@@ -36,7 +36,7 @@ type Config struct {
 }
 
 type Student struct {
-	Id   string `csv:"id"`
+	ID   string `csv:"id"`
 	Name string `csv:"name"`
 }
 
@@ -143,7 +143,7 @@ func main() {
 
 func cloneRepo(config Config, student Student) string {
 	fmt.Println("Cloning Repo for: ", student.Name)
-	repoUrl := fmt.Sprintf(config.URL, config.Username, config.Password, student.Id)
+	repoUrl := fmt.Sprintf(config.URL, config.Username, config.Password, student.ID)
 	targetDir := getTargetDirectory(repoUrl, student.Name)
 	output, err := commander("git", "clone", repoUrl, targetDir)
 	checkGitError(output, err)
