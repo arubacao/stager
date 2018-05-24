@@ -143,17 +143,17 @@ func main() {
 
 func cloneRepo(config Config, student Student) string {
 	fmt.Println("Cloning Repo for: ", student.Name)
-	repoUrl := fmt.Sprintf(config.URL, config.Username, config.Password, student.ID)
-	targetDir := getTargetDirectory(repoUrl, student.Name)
-	output, err := commander("git", "clone", repoUrl, targetDir)
+	repoURL := fmt.Sprintf(config.URL, config.Username, config.Password, student.ID)
+	targetDir := getTargetDirectory(repoURL, student.Name)
+	output, err := commander("git", "clone", repoURL, targetDir)
 	checkGitError(output, err)
 	fmt.Println(output)
 
 	return targetDir
 }
 
-func getTargetDirectory(repoUrl, studentName string) string {
-	u, _ := url.Parse(repoUrl)
+func getTargetDirectory(repoURL, studentName string) string {
+	u, _ := url.Parse(repoURL)
 	ps := path.Base(u.Path)
 	repoBase := strings.TrimSuffix(ps, filepath.Ext(ps))
 
