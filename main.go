@@ -28,7 +28,7 @@ const (
 )
 
 type Config struct {
-	Url         string
+	URL         string
 	Username    string
 	Password    string
 	Deadline    string
@@ -143,7 +143,7 @@ func main() {
 
 func cloneRepo(config Config, student Student) string {
 	fmt.Println("Cloning Repo for: ", student.Name)
-	repoUrl := fmt.Sprintf(config.Url, config.Username, config.Password, student.Id)
+	repoUrl := fmt.Sprintf(config.URL, config.Username, config.Password, student.Id)
 	targetDir := getTargetDirectory(repoUrl, student.Name)
 	output, err := commander("git", "clone", repoUrl, targetDir)
 	checkGitError(output, err)
