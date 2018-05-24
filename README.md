@@ -113,3 +113,9 @@ The different operations/strategies are:
 3. SquashOperation
     SquashOperation squashes all commits after a given SHA hash.
     This is useful to visualise all changes a student made in a single commit.
+    
+## Todos:  
+
+_This is the first draft of the tool. Bugs are likely to occur._  
+
+- Better error handling
