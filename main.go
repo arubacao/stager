@@ -47,6 +47,7 @@ type Operator interface {
 	Run(repo string, student Student, config Config) (string, error)
 }
 
+// Operation struct
 type Operation struct {
 	Operator Operator
 }
@@ -64,6 +65,7 @@ func (o *Operation) Operate(repo string, student Student, config Config) (string
 // and in a clean state. This is useful for already locally available repo folders.
 type PullOperation struct{}
 
+// Run executes the PullOperation
 func (PullOperation) Run(repo string, student Student, config Config) (string, error) {
 	fetch, err := commander("git",
 		"-C", repo,
@@ -83,6 +85,7 @@ func (PullOperation) Run(repo string, student Student, config Config) (string, e
 // This is useful, since BitBucket does not enforce any deadline whatsoever.
 type DeadlineOperation struct{}
 
+// Run executes the DeadlineOperation
 func (DeadlineOperation) Run(repo string, student Student, config Config) (string, error) {
 	lastSha, err := commander("git",
 		"-C", repo,
@@ -104,6 +107,7 @@ func (DeadlineOperation) Run(repo string, student Student, config Config) (strin
 // This is useful to visualise all changes a student made in a single commit.
 type SquashOperation struct{}
 
+// Run executes the SquashOperation
 func (SquashOperation) Run(repo string, student Student, config Config) (string, error) {
 	reset, err := commander("git",
 		"-C", repo,
