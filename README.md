@@ -33,7 +33,7 @@ _Note: This is not bullet proof, since git timestamps can be manipulated!_
 Students add code to an existing codebase provided from the instructors.
 It is a lot easier to correct their homework, if the changes made by the students are immediately visible.
 Therefore, the tools squashes commits after a giving SHA hash. The original history is still available.  
-![Squash commits](/assets/due-date.png?raw=true "Squash student commits")  
+![Squash commits](/assets/squash.png?raw=true "Squash student commits")  
 
 ## Install
 ### Pre-compiled executables (recommended)
