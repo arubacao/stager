@@ -13,7 +13,27 @@ It downloads and prepares a selected list of student repositories to your local 
 - Remove code committed after the deadline 
 - Squash student commits into a single commit 
 - Dead-simple and reusable configuration
-- Automatic build pipeline for cross-platform executables
+- Automatic build pipeline for cross-platform executables [(see here)](http://github.com/arubacao/git-bulk-dl/releases)
+
+### More Info
+
+#### Append student names to repo folders
+
+![Rename Repos](/assets/rename.png?raw=true "rename repos")
+
+#### Enforce deadline
+
+Some students try to add more commits after the deadline.  
+`git-bulk-dl` removes late commits.  
+_Note: This is not bullet proof, since git timestamps can be manipulated!_  
+![Enforce deadline](/assets/due-date.png?raw=true "Enforce deadline")
+
+#### Squash student commits
+
+Students add code to an existing codebase provided from the instructors.
+It is a lot easier to correct their homework, if the changes made by the students are immediately visible.
+Therefore, the tools squashes commits after a giving SHA hash. The original history is still available.  
+![Squash commits](/assets/due-date.png?raw=true "Squash student commits")  
 
 ## Install
 ### Pre-compiled executables (recommended)
@@ -77,3 +97,19 @@ John Doe,ga77ugu
     ```
 3. ...
 4. Profit
+
+## Implementation
+
+The different operations have been implement with the help of the strategy pattern (s. illustration below).
+<p><a href="https://commons.wikimedia.org/wiki/File:W3sDesign_Strategy_Design_Pattern_UML.jpg#/media/File:W3sDesign_Strategy_Design_Pattern_UML.jpg"><img src="https://upload.wikimedia.org/wikipedia/commons/4/45/W3sDesign_Strategy_Design_Pattern_UML.jpg" alt="W3sDesign Strategy Design Pattern UML.jpg"></a><br>By <a href="//commons.wikimedia.org/wiki/User:Vanderjoe" title="User:Vanderjoe">Vanderjoe</a> - <span class="int-own-work" lang="en">Own work</span>, <a href="https://creativecommons.org/licenses/by-sa/4.0" title="Creative Commons Attribution-Share Alike 4.0">CC BY-SA 4.0</a>, <a href="https://commons.wikimedia.org/w/index.php?curid=60733582">Link</a></p>
+
+The different operations/strategies are:
+1. PullOperation  
+    PullOperation ensures that each accessible repository is up-to-date 
+    and in a clean state. This is useful for already locally available repo folders.
+2. DeadlineOperation  
+    DeadlineOperation ensures that commits after a given deadline are not applied in the local repository.
+    This is useful, since BitBucket does not enforce any deadline whatsoever.
+3. SquashOperation
+    SquashOperation squashes all commits after a given SHA hash.
+    This is useful to visualise all changes a student made in a single commit.
