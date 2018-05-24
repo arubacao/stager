@@ -27,6 +27,7 @@ const (
 	studentsFile = "students.csv"
 )
 
+// Config holds data from config.json
 type Config struct {
 	URL         string
 	Username    string
@@ -35,6 +36,7 @@ type Config struct {
 	SquashAfter string `json:"squash_after"`
 }
 
+// Student holds data from students.csv
 type Student struct {
 	ID   string `csv:"id"`
 	Name string `csv:"name"`
