@@ -205,6 +205,9 @@ func checkGitError(message string, err error) {
 	if strings.Contains(message, "does not exist") {
 		return
 	}
+	if strings.Contains(message, "nothing to commit, working tree clean") {
+		return
+	}
 	checkError(err)
 }
 
