@@ -66,3 +66,14 @@ name,id
 John Doe,ga77ugu
 ...
 ```
+
+## Usage
+
+1. Place the executable, `config.json` and `students.csv` into a desired folder.
+2. a) double click the executable or b) execute from terminal (recommended)
+    ```$bash
+    $ cd ~/homework3correction
+    $ ./git-bulk-dl
+    ```
+3. ...
+4. Profit
