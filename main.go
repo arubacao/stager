@@ -42,6 +42,7 @@ type Student struct {
 	Name string `csv:"name"`
 }
 
+// Operator Interface : Implementation of an interchangeable operator object that operates on the students context
 type Operator interface {
 	Run(repo string, student Student, config Config) (string, error)
 }
@@ -50,6 +51,7 @@ type Operation struct {
 	Operator Operator
 }
 
+// Operate func adds verbosity and calls run func
 func (o *Operation) Operate(repo string, student Student, config Config) (string, error) {
 	fmt.Println("--------------------------------------------------------------")
 	fmt.Printf("Execute %s for %s \n", reflect.TypeOf(o.Operator), student.Name)
@@ -58,6 +60,8 @@ func (o *Operation) Operate(repo string, student Student, config Config) (string
 	return o.Operator.Run(repo, student, config)
 }
 
+// PullOperation ensures that each accessible repository is up-to-date
+// and in a clean state. This is useful for already locally available repo folders.
 type PullOperation struct{}
 
 func (PullOperation) Run(repo string, student Student, config Config) (string, error) {
@@ -75,6 +79,8 @@ func (PullOperation) Run(repo string, student Student, config Config) (string, e
 	return reset, err
 }
 
+// DeadlineOperation ensures that commits after a given deadline are not applied in the local repository.
+// This is useful, since BitBucket does not enforce any deadline whatsoever.
 type DeadlineOperation struct{}
 
 func (DeadlineOperation) Run(repo string, student Student, config Config) (string, error) {
@@ -94,6 +100,8 @@ func (DeadlineOperation) Run(repo string, student Student, config Config) (strin
 	return checkout, err
 }
 
+// SquashOperation squashes all commits after a given SHA hash.
+// This is useful to visualise all changes a student made in a single commit.
 type SquashOperation struct{}
 
 func (SquashOperation) Run(repo string, student Student, config Config) (string, error) {
