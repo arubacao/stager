@@ -14,6 +14,11 @@ archive:
   format_overrides:
   - goos: windows
     format: zip
+  files:
+    - LICENSE
+    - README.md
+    - example.config.json
+    - example.students.csv
 
 checksum:
   name_template: "{{ .ProjectName }}-checksums.txt"
