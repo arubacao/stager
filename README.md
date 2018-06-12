@@ -12,6 +12,7 @@ It downloads and prepares a selected list of student repositories to your local 
 - Append student names to folder names
 - Remove code committed after the deadline 
 - Squash student commits into a single commit 
+- Rename project names for better overview in Eclipse 
 - Dead-simple and reusable configuration
 - Automatic build pipeline for cross-platform executables [(see here)](http://github.com/arubacao/git-bulk-dl/releases)
 
@@ -34,6 +35,12 @@ Students add code to an existing codebase provided from the instructors.
 It is a lot easier to correct their homework, if the changes made by the students are immediately visible.
 Therefore, the tools squashes commits after a giving SHA hash. The original history is still available.  
 ![Squash commits](/assets/squash.png?raw=true "Squash student commits")  
+
+#### Rename Eclipse project names
+
+It is confusing when you open 10 projects with identical names in Eclipse.
+Therefore, the tools renames each project and appends the students name and identifier.  
+![Rename projects](/assets/rename-project.png?raw=true "Rename eclipse project name")  
 
 ## Install
 ### Pre-compiled executables (recommended)

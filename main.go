@@ -20,6 +20,8 @@ import (
 	"path/filepath"
 	"reflect"
 	"strings"
+	"encoding/xml"
+	"bytes"
 )
 
 const (
@@ -40,6 +42,12 @@ type Config struct {
 type Student struct {
 	ID   string `csv:"id"`
 	Name string `csv:"name"`
+}
+
+// ProjectFile holds data from .project
+type ProjectFile struct {
+	// We only need the name because we use XML only to read the file
+	Name string `xml:"name"`
 }
 
 // Operator Interface : Implementation of an interchangeable operator object that operates on the students context
@@ -103,6 +111,43 @@ func (DeadlineOperation) Run(repo string, student Student, config Config) (strin
 	return checkout, err
 }
 
+// RenameProjectOperation renames the project name for better readability in eclipse.
+type RenameProjectOperation struct{}
+
+// Run executes the RenameProjectOperation
+func (RenameProjectOperation) Run(repo string, student Student, config Config) (string, error) {
+	projectPath := repo + "/.project"
+
+	b := readXML(projectPath)
+
+	var proj ProjectFile
+	xml.Unmarshal(b, &proj)
+
+	// We don't utilize XML for overwriting the file, since we do not want to maintain the complete structure
+	// Instead, we overwrite the project name in the []byte
+	output := bytes.Replace(b, []byte(proj.Name), []byte(student.Name + " " + student.ID + " " + proj.Name), -1)
+	err := ioutil.WriteFile(projectPath, output, 0666)
+	fmt.Println("Renamed project name in: " + projectPath)
+	checkError(err)
+
+	add, err := commander("git",
+		"-C", repo,
+		"add",
+		".project")
+	fmt.Println(add)
+	checkGitError(add, err)
+
+	commit, err := commander("git",
+		"-C", repo,
+		"commit",
+		"-m",
+		"automatically renamed project name for eclipse")
+	fmt.Println(commit)
+	checkGitError(commit, err)
+
+	return commit, err
+}
+
 // SquashOperation squashes all commits after a given SHA hash.
 // This is useful to visualise all changes a student made in a single commit.
 type SquashOperation struct{}
@@ -139,6 +184,7 @@ func main() {
 	operations := []Operation{
 		{PullOperation{}},
 		{DeadlineOperation{}},
+		{RenameProjectOperation{}},
 		{SquashOperation{}},
 	}
 	for _, student := range students {
@@ -193,6 +239,16 @@ func getConfig(filename string) Config {
 	json.Unmarshal([]byte(configContent), &config)
 
 	return config
+}
+
+func readXML(path string) []byte {
+	xmlFile, err := os.Open(path)
+	checkError(err)
+	defer xmlFile.Close()
+
+	b, _ := ioutil.ReadAll(xmlFile)
+
+	return b
 }
 
 func checkGitError(message string, err error) {
