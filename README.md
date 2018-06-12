@@ -19,7 +19,7 @@ It downloads and prepares a selected list of student repositories to your local 
 
 #### Append student names to repo folders
 
-![Rename Repos](/assets/rename.png?raw=true "rename repos")
+![Rename Repos](/assets/rename-folders.png?raw=true "rename repos")
 
 #### Enforce deadline
 
