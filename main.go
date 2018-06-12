@@ -111,7 +111,7 @@ func (DeadlineOperation) Run(repo string, student Student, config Config) (strin
 	return checkout, err
 }
 
-// RenameProjectOperation renames the project name for better readability in eclipse.
+// RenameProjectOperation renames the project name for better overview in Eclipse.
 type RenameProjectOperation struct{}
 
 // Run executes the RenameProjectOperation

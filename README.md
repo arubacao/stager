@@ -117,9 +117,13 @@ The different operations/strategies are:
 2. DeadlineOperation  
     DeadlineOperation ensures that commits after a given deadline are not applied in the local repository.
     This is useful, since BitBucket does not enforce any deadline whatsoever.
-3. SquashOperation
+3. SquashOperation  
     SquashOperation squashes all commits after a given SHA hash.
     This is useful to visualise all changes a student made in a single commit.
+4. RenameProjectOperation  
+    RenameProjectOperation renames the project name for better overview in Eclipse.
+
+
     
 ## Todos:  
 
