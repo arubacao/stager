@@ -122,11 +122,3 @@ The different operations/strategies are:
     This is useful to visualise all changes a student made in a single commit.
 4. RenameProjectOperation  
     RenameProjectOperation renames the project name for better overview in Eclipse.
-
-
-    
-## Todos:  
-
-_This is the first draft of the tool. Bugs are likely to occur._  
-
-- Better error handling
