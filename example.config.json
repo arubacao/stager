@@ -1,7 +1,7 @@
 {
-  "url": "https://%s:%s@repobruegge.in.tum.de/scm/eist2018l02bumperss03/eist2018-l02-bumpers-sprint03-exercise-%s.git",
+  "url": "https://%s:%s@repobruegge.in.tum.de/scm/eist2018h07e04/eist2018-h07-e04-exercise-%s.git",
   "username": "tutor-lrz-idga12dub",
   "password": "my-secret-password",
-  "deadline": "2018-29-04 23:59:59",
-  "squash_after": "47ad218377d8b2509c6293823cc6ff2f87ca770a"
+  "deadline": "2018-17-06 23:59:59",
+  "squash_after": "d74afe78fa6858a991430ae46983173f363a8cc6"
 }
