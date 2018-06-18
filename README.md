@@ -18,6 +18,8 @@ It downloads and prepares a selected list of student repositories to your local 
 
 ### More Info
 
+_Note: We do not collect or process any information. Displayed student names and identifiers are fake. We are compliant with the General Data Protection Regulation (GDPR)._
+
 #### Append student names to repo folders
 
 ![Rename Repos](/assets/rename-folders.png?raw=true "rename repos")
