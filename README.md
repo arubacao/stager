@@ -1,10 +1,10 @@
-# git-bulk-dl
+# stager
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Travis](https://img.shields.io/travis/arubacao/git-bulk-dl.svg?style=flat-square)](https://travis-ci.org/arubacao/git-bulk-dl)
-[![Go Report Card](https://goreportcard.com/badge/github.com/arubacao/git-bulk-dl?style=flat-square)](https://goreportcard.com/report/github.com/arubacao/git-bulk-dl)
-[![Godoc](https://godoc.org/github.com/arubacao/git-bulk-dl?status.svg&style=flat-square)](http://godoc.org/github.com/arubacao/git-bulk-dl)
+[![Travis](https://img.shields.io/travis/arubacao/stager.svg?style=flat-square)](https://travis-ci.org/arubacao/stager)
+[![Go Report Card](https://goreportcard.com/badge/github.com/arubacao/stager?style=flat-square)](https://goreportcard.com/report/github.com/arubacao/stager)
+[![Godoc](https://godoc.org/github.com/arubacao/stager?status.svg&style=flat-square)](http://godoc.org/github.com/arubacao/stager)
 
-`git-bulk-dl` is a tool designed to help [ls1intum](https://wwwbruegge.in.tum.de/lehrstuhl_1/) tutors streamline code homework correction submitted to [ArTEMiS](https://artemis.ase.in.tum.de).
+`stager` is a tool designed to help [ls1intum](https://wwwbruegge.in.tum.de/lehrstuhl_1/) tutors streamline code homework correction submitted to [ArTEMiS](https://artemis.ase.in.tum.de).
 It downloads and prepares a selected list of student repositories to your local machine.
 
 ## Features
@@ -14,7 +14,7 @@ It downloads and prepares a selected list of student repositories to your local 
 - Squash student commits into a single commit 
 - Rename project names for better overview in Eclipse 
 - Dead-simple and reusable configuration
-- Automatic build pipeline for cross-platform executables [(see here)](http://github.com/arubacao/git-bulk-dl/releases)
+- Automatic build pipeline for cross-platform executables [(see here)](http://github.com/arubacao/stager/releases)
 
 ### More Info
 
@@ -27,7 +27,7 @@ _Note: We do not collect or process any information. Displayed student names and
 #### Enforce deadline
 
 Some students try to add more commits after the deadline.  
-`git-bulk-dl` removes late commits.  
+`stager` removes late commits.  
 _Note: This is not bullet proof, since git timestamps can be manipulated!_  
 ![Enforce deadline](/assets/due-date.png?raw=true "Enforce deadline")
 
@@ -46,7 +46,7 @@ Therefore, the tools renames each project and appends the students name and iden
 
 ## Install
 ### Pre-compiled executables (recommended)
-Get them [here](http://github.com/arubacao/git-bulk-dl/releases).
+Get them [here](http://github.com/arubacao/stager/releases).
 
 ### Source
 You need `go` installed and `GOBIN` in your `PATH`. Once that is done, run the
@@ -102,7 +102,7 @@ John Doe,ga77ugu
 2. a) double click the executable or b) execute from terminal (recommended)
     ```$bash
     $ cd ~/homework3correction
-    $ ./git-bulk-dl
+    $ ./stager
     ```
 3. ...
 4. Profit
